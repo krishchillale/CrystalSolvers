@@ -1,0 +1,16 @@
+opencv-python-headless>=4.9
+numpy>=1.26
+pydantic>=2.6
+fastapi>=0.110
+uvicorn[standard]>=0.29
+python-multipart>=0.0.9
+pytesseract>=0.3.10
+pillow>=10.2
+pymupdf>=1.24
+
+# For the Qwen VLM tiers (heavy — install separately, and only if you have
+# a CUDA GPU):
+torch>=2.2
+transformers>=4.42
+accelerate>=0.30
+bitsandbytes>=0.43   # 4-bit quantization — needed to fit on 6GB-class GPUs
