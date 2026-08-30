@@ -1,0 +1,43 @@
+{
+    "hemoglobin": {
+        "unit": "g/dL",
+        "min": 12,
+        "max": 17
+    },
+
+    "blood glucose": {
+        "unit": "mg/dL",
+        "min": 70,
+        "max": 99
+    },
+
+    "wbc": {
+        "unit": "/uL",
+        "min": 4000,
+        "max": 11000
+    },
+
+    "white blood cell count": {
+        "unit": "/uL",
+        "min": 4000,
+        "max": 11000
+    },
+
+    "platelets": {
+        "unit": "/uL",
+        "min": 150000,
+        "max": 450000
+    },
+
+    "temperature": {
+        "unit": "C",
+        "min": 36.1,
+        "max": 37.2
+    },
+
+    "body temperature": {
+        "unit": "C",
+        "min": 36.1,
+        "max": 37.2
+    }
+}
