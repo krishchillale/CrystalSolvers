@@ -1,0 +1,1131 @@
+{
+  "metadata": {
+    "name": "Multilingual Patient Case Taking Questionnaire",
+    "version": "1.0",
+    "purpose": "Assistive patient information collection for SIH MVP",
+    "languages": ["en", "hi", "mr"],
+    "primary_complaints": [
+      "fever",
+      "cough",
+      "stomach_pain",
+      "headache",
+      "body_pain",
+      "cold"
+    ],
+    "important_note": "This questionnaire collects and structures patient-reported information. It does not diagnose disease or prescribe treatment."
+  },
+
+  "languages": {
+    "en": "English",
+    "hi": "Hindi",
+    "mr": "Marathi"
+  },
+
+  "chief_complaint_prompt": {
+    "en": "What is troubling you today? Please choose your main problem(s).",
+    "hi": "आज आपको क्या तकलीफ है? अपनी मुख्य समस्या(एँ) चुनें।",
+    "mr": "आज तुम्हाला काय त्रास होत आहे? तुमच्या मुख्य समस्या निवडा."
+  },
+
+  "chief_complaints": [
+    {
+      "key": "fever",
+      "label": {
+        "en": "Fever",
+        "hi": "बुखार",
+        "mr": "ताप"
+      }
+    },
+    {
+      "key": "cough",
+      "label": {
+        "en": "Cough",
+        "hi": "खांसी",
+        "mr": "खोकला"
+      }
+    },
+    {
+      "key": "stomach_pain",
+      "label": {
+        "en": "Stomach pain",
+        "hi": "पेट दर्द",
+        "mr": "पोटदुखी"
+      }
+    },
+    {
+      "key": "headache",
+      "label": {
+        "en": "Headache",
+        "hi": "सिरदर्द",
+        "mr": "डोकेदुखी"
+      }
+    },
+    {
+      "key": "body_pain",
+      "label": {
+        "en": "Body pain",
+        "hi": "बदन दर्द",
+        "mr": "अंगदुखी"
+      }
+    },
+    {
+      "key": "cold",
+      "label": {
+        "en": "Cold",
+        "hi": "सर्दी/जुकाम",
+        "mr": "सर्दी"
+      }
+    }
+  ],
+
+  "common_questions": [
+    {
+      "id": "COMMON_DURATION",
+      "type": "DURATION",
+      "priority": 100,
+      "required": true,
+      "text": {
+        "en": "Since when have you been experiencing this problem?",
+        "hi": "आपको यह समस्या कब से है?",
+        "mr": "तुम्हाला ही समस्या कधीपासून आहे?"
+      },
+      "state_mapping": {
+        "field": "duration"
+      }
+    },
+    {
+      "id": "COMMON_SEVERITY",
+      "type": "SEVERITY",
+      "priority": 80,
+      "required": true,
+      "text": {
+        "en": "How severe is the problem?",
+        "hi": "यह समस्या कितनी गंभीर है?",
+        "mr": "ही समस्या किती तीव्र आहे?"
+      },
+      "allowed_values": [
+        "mild",
+        "moderate",
+        "severe"
+      ],
+      "state_mapping": {
+        "field": "severity"
+      }
+    },
+    {
+      "id": "COMMON_PROGRESS",
+      "type": "SINGLE_CHOICE",
+      "priority": 60,
+      "required": false,
+      "text": {
+        "en": "Is it getting better, worse, or staying the same?",
+        "hi": "क्या यह समस्या कम हो रही है, बढ़ रही है या वैसी ही है?",
+        "mr": "ही समस्या कमी होत आहे, वाढत आहे की तशीच आहे?"
+      },
+      "allowed_values": [
+        "better",
+        "worse",
+        "same"
+      ],
+      "state_mapping": {
+        "field": "progress"
+      }
+    },
+    {
+      "id": "COMMON_OTHER_SYMPTOMS",
+      "type": "MULTIPLE_CHOICE_OR_TEXT",
+      "priority": 50,
+      "required": false,
+      "text": {
+        "en": "Do you have any other symptoms?",
+        "hi": "क्या आपको कोई और लक्षण हैं?",
+        "mr": "तुम्हाला आणखी काही लक्षणे आहेत का?"
+      },
+      "state_mapping": {
+        "field": "additional_symptoms"
+      }
+    }
+  ],
+
+  "symptoms": {
+
+    "fever": {
+      "questions": [
+        {
+          "id": "FEVER_DURATION",
+          "type": "DURATION",
+          "priority": 100,
+          "required": true,
+          "text": {
+            "en": "Since how many days do you have fever?",
+            "hi": "आपको कितने दिनों से बुखार है?",
+            "mr": "तुम्हाला किती दिवसांपासून ताप आहे?"
+          },
+          "state_mapping": {
+            "field": "fever.duration"
+          }
+        },
+        {
+          "id": "FEVER_PATTERN",
+          "type": "SINGLE_CHOICE",
+          "priority": 90,
+          "required": false,
+          "text": {
+            "en": "Is the fever constant, or does it come and go?",
+            "hi": "क्या बुखार लगातार रहता है, या बीच-बीच में आता-जाता है?",
+            "mr": "ताप सतत आहे की मध्ये मध्ये येतो आणि जातो?"
+          },
+          "allowed_values": [
+            "constant",
+            "comes_and_goes"
+          ],
+          "state_mapping": {
+            "field": "fever.pattern"
+          }
+        },
+        {
+          "id": "FEVER_TEMPERATURE",
+          "type": "TEMPERATURE",
+          "priority": 95,
+          "required": false,
+          "text": {
+            "en": "Have you checked your temperature? What is the highest reading?",
+            "hi": "क्या आपने तापमान मापा है? सबसे ज़्यादा तापमान कितना था?",
+            "mr": "तुम्ही तापमान मोजले आहे का? सर्वात जास्त तापमान किती होते?"
+          },
+          "state_mapping": {
+            "field": "fever.temperature"
+          }
+        },
+        {
+          "id": "FEVER_CHILLS",
+          "type": "YES_NO",
+          "priority": 80,
+          "required": false,
+          "text": {
+            "en": "Do you feel chills or shivering along with the fever?",
+            "hi": "क्या बुखार के साथ ठंड लगती है या कंपकंपी होती है?",
+            "mr": "तापासोबत थंडी वाजते किंवा कापरे भरते का?"
+          },
+          "state_mapping": {
+            "field": "fever.chills"
+          }
+        },
+        {
+          "id": "FEVER_ASSOCIATED",
+          "type": "MULTIPLE_CHOICE_OR_TEXT",
+          "priority": 75,
+          "required": false,
+          "text": {
+            "en": "Do you have any other symptoms with the fever, like cough, cold, body pain, or a rash?",
+            "hi": "क्या बुखार के साथ खांसी, सर्दी, बदन दर्द या शरीर पर चकत्ते जैसी कोई और तकलीफ है?",
+            "mr": "तापासोबत खोकला, सर्दी, अंगदुखी किंवा अंगावर पुरळ यासारखा दुसरा त्रास आहे का?"
+          },
+          "state_mapping": {
+            "field": "fever.associated_symptoms"
+          }
+        },
+        {
+          "id": "FEVER_RED_FLAG",
+          "type": "YES_NO_OR_TEXT",
+          "priority": 1000,
+          "required": true,
+          "red_flag": true,
+          "text": {
+            "en": "Do you have difficulty breathing, severe weakness, confusion, fainting, or fits/seizures?",
+            "hi": "क्या आपको सांस लेने में तकलीफ, बहुत ज़्यादा कमज़ोरी, भ्रम, बेहोशी, या दौरे पड़ रहे हैं?",
+            "mr": "तुम्हाला श्वास घेण्यास त्रास, खूप अशक्तपणा, गोंधळल्यासारखे वाटणे, बेशुद्ध पडणे किंवा फिट्स येत आहेत का?"
+          },
+          "state_mapping": {
+            "field": "red_flags.fever_neuro_respiratory"
+          }
+        },
+        {
+          "id": "FEVER_MEDICATION",
+          "type": "TEXT",
+          "priority": 40,
+          "required": false,
+          "text": {
+            "en": "Have you taken any medicine for the fever? If yes, did it help?",
+            "hi": "क्या आपने बुखार के लिए कोई दवा ली है? अगर हाँ, तो क्या उससे फायदा हुआ?",
+            "mr": "तापासाठी काही औषध घेतले आहे का? घेतले असल्यास त्याचा फायदा झाला का?"
+          },
+          "state_mapping": {
+            "field": "fever.medication"
+          }
+        }
+      ]
+    },
+
+    "cough": {
+      "questions": [
+        {
+          "id": "COUGH_DURATION",
+          "type": "DURATION",
+          "priority": 100,
+          "required": true,
+          "text": {
+            "en": "Since how many days do you have this cough?",
+            "hi": "आपको कितने दिनों से खांसी है?",
+            "mr": "तुम्हाला किती दिवसांपासून खोकला आहे?"
+          },
+          "state_mapping": {
+            "field": "cough.duration"
+          }
+        },
+        {
+          "id": "COUGH_TYPE",
+          "type": "SINGLE_CHOICE",
+          "priority": 95,
+          "required": true,
+          "text": {
+            "en": "Is it a dry cough, or do you cough up mucus or phlegm?",
+            "hi": "क्या यह सूखी खांसी है, या खांसी के साथ बलगम आता है?",
+            "mr": "हा कोरडा खोकला आहे की खोकल्यासोबत कफ येतो?"
+          },
+          "allowed_values": [
+            "dry",
+            "productive"
+          ],
+          "state_mapping": {
+            "field": "cough.type"
+          }
+        },
+        {
+          "id": "COUGH_PHLEGM_COLOR",
+          "type": "SINGLE_CHOICE",
+          "priority": 90,
+          "required": false,
+          "ask_if": {
+            "field": "cough.type",
+            "equals": "productive"
+          },
+          "text": {
+            "en": "If there is phlegm, what color is it — white, yellow, green, or blood-stained?",
+            "hi": "अगर बलगम आता है, तो उसका रंग कैसा है — सफेद, पीला, हरा, या उसमें खून है?",
+            "mr": "जर कफ येत असेल, तर त्याचा रंग कसा आहे — पांढरा, पिवळा, हिरवा की त्यात रक्त आहे?"
+          },
+          "allowed_values": [
+            "white",
+            "yellow",
+            "green",
+            "blood_stained",
+            "unknown"
+          ],
+          "state_mapping": {
+            "field": "cough.phlegm_color"
+          }
+        },
+        {
+          "id": "COUGH_TIMING",
+          "type": "SINGLE_OR_TEXT",
+          "priority": 60,
+          "required": false,
+          "text": {
+            "en": "Is the cough worse at night, in the morning, or with any specific activity?",
+            "hi": "क्या खांसी रात में, सुबह के समय, या किसी खास काम के दौरान ज़्यादा होती है?",
+            "mr": "खोकला रात्री, सकाळी किंवा एखाद्या विशिष्ट कामाच्या वेळी जास्त होतो का?"
+          },
+          "state_mapping": {
+            "field": "cough.timing"
+          }
+        },
+        {
+          "id": "COUGH_BREATHING",
+          "type": "YES_NO",
+          "priority": 1000,
+          "required": true,
+          "red_flag": true,
+          "text": {
+            "en": "Do you feel breathless or have chest pain along with the cough?",
+            "hi": "क्या खांसी के साथ सांस फूलती है या सीने में दर्द होता है?",
+            "mr": "खोकल्यासोबत धाप लागते किंवा छातीत दुखते का?"
+          },
+          "state_mapping": {
+            "field": "red_flags.cough_breathing_or_chest_pain"
+          }
+        },
+        {
+          "id": "COUGH_FEVER",
+          "type": "YES_NO",
+          "priority": 75,
+          "required": false,
+          "text": {
+            "en": "Do you have fever along with the cough?",
+            "hi": "क्या खांसी के साथ बुखार भी है?",
+            "mr": "खोकल्यासोबत ताप पण आहे का?"
+          },
+          "state_mapping": {
+            "field": "cough.associated_fever"
+          }
+        },
+        {
+          "id": "COUGH_BLOOD_WEIGHT",
+          "type": "YES_NO_OR_TEXT",
+          "priority": 1000,
+          "required": true,
+          "red_flag": true,
+          "text": {
+            "en": "Is there blood in your cough, or have you lost weight without trying?",
+            "hi": "क्या खांसी में खून आता है, या बिना कोशिश किए आपका वज़न कम हुआ है?",
+            "mr": "खोकल्यातून रक्त येते का, किंवा कोणताही प्रयत्न न करता वजन कमी झाले आहे का?"
+          },
+          "state_mapping": {
+            "field": "red_flags.cough_blood_or_unintentional_weight_loss"
+          }
+        }
+      ]
+    },
+
+    "stomach_pain": {
+      "questions": [
+        {
+          "id": "STOMACH_DURATION",
+          "type": "DURATION",
+          "priority": 100,
+          "required": true,
+          "text": {
+            "en": "Since how many days or hours do you have this stomach pain?",
+            "hi": "आपको यह पेट दर्द कितने दिनों या घंटों से है?",
+            "mr": "तुम्हाला ही पोटदुखी किती दिवसांपासून किंवा तासांपासून आहे?"
+          },
+          "state_mapping": {
+            "field": "stomach_pain.duration"
+          }
+        },
+        {
+          "id": "STOMACH_LOCATION",
+          "type": "SINGLE_CHOICE",
+          "priority": 95,
+          "required": true,
+          "text": {
+            "en": "Where exactly is the pain — upper stomach, lower stomach, left side, right side, or all over?",
+            "hi": "दर्द ठीक कहाँ होता है — पेट के ऊपरी हिस्से में, निचले हिस्से में, बाईं तरफ, दाईं तरफ, या पूरे पेट में?",
+            "mr": "वेदना नक्की कुठे होते — पोटाच्या वरच्या भागात, खालच्या भागात, डाव्या बाजूला, उजव्या बाजूला की संपूर्ण पोटात?"
+          },
+          "allowed_values": [
+            "upper",
+            "lower",
+            "left",
+            "right",
+            "all_over",
+            "unknown"
+          ],
+          "state_mapping": {
+            "field": "stomach_pain.location"
+          }
+        },
+        {
+          "id": "STOMACH_PATTERN",
+          "type": "SINGLE_CHOICE",
+          "priority": 80,
+          "required": false,
+          "text": {
+            "en": "Is the pain constant, or does it come in cramps or waves?",
+            "hi": "क्या दर्द लगातार रहता है, या मरोड़ों की तरह आता-जाता रहता है?",
+            "mr": "वेदना सतत असते की कळांसारखी येते-जाते?"
+          },
+          "allowed_values": [
+            "constant",
+            "cramps_or_waves"
+          ],
+          "state_mapping": {
+            "field": "stomach_pain.pattern"
+          }
+        },
+        {
+          "id": "STOMACH_GI",
+          "type": "MULTIPLE_CHOICE_OR_TEXT",
+          "priority": 85,
+          "required": false,
+          "text": {
+            "en": "Do you have vomiting, nausea, loose motions, or constipation?",
+            "hi": "क्या आपको उल्टी, जी मिचलाना, दस्त, या कब्ज़ की शिकायत है?",
+            "mr": "तुम्हाला उलटी, मळमळ, जुलाब किंवा बद्धकोष्ठता आहे का?"
+          },
+          "state_mapping": {
+            "field": "stomach_pain.gastrointestinal_symptoms"
+          }
+        },
+        {
+          "id": "STOMACH_FOOD",
+          "type": "SINGLE_CHOICE",
+          "priority": 60,
+          "required": false,
+          "text": {
+            "en": "Does eating food make the pain better or worse?",
+            "hi": "क्या खाना खाने से दर्द बढ़ता है या कम होता है?",
+            "mr": "जेवण केल्याने वेदना वाढते की कमी होते?"
+          },
+          "allowed_values": [
+            "better",
+            "worse",
+            "no_change",
+            "unknown"
+          ],
+          "state_mapping": {
+            "field": "stomach_pain.food_relation"
+          }
+        },
+        {
+          "id": "STOMACH_FEVER",
+          "type": "YES_NO",
+          "priority": 70,
+          "required": false,
+          "text": {
+            "en": "Do you have fever along with the stomach pain?",
+            "hi": "क्या पेट दर्द के साथ बुखार भी है?",
+            "mr": "पोटदुखीसोबत ताप पण आहे का?"
+          },
+          "state_mapping": {
+            "field": "stomach_pain.associated_fever"
+          }
+        },
+        {
+          "id": "STOMACH_RED_FLAG",
+          "type": "YES_NO_OR_TEXT",
+          "priority": 1000,
+          "required": true,
+          "red_flag": true,
+          "text": {
+            "en": "Is there any blood in your vomit or stool, or is the pain very severe and sudden?",
+            "hi": "क्या उल्टी या मल में खून आता है, या दर्द बहुत तेज़ और अचानक शुरू हुआ है?",
+            "mr": "उलटी किंवा शौचात रक्त येते का, किंवा वेदना खूप तीव्र आणि अचानक सुरू झाली आहे का?"
+          },
+          "state_mapping": {
+            "field": "red_flags.stomach_bleeding_or_sudden_severe_pain"
+          }
+        }
+      ]
+    },
+
+    "headache": {
+      "questions": [
+        {
+          "id": "HEADACHE_DURATION",
+          "type": "DURATION",
+          "priority": 100,
+          "required": true,
+          "text": {
+            "en": "Since how many days or hours do you have this headache?",
+            "hi": "आपको यह सिरदर्द कितने दिनों या घंटों से है?",
+            "mr": "तुम्हाला ही डोकेदुखी किती दिवसांपासून किंवा तासांपासून आहे?"
+          },
+          "state_mapping": {
+            "field": "headache.duration"
+          }
+        },
+        {
+          "id": "HEADACHE_LOCATION",
+          "type": "SINGLE_CHOICE",
+          "priority": 90,
+          "required": false,
+          "text": {
+            "en": "Where is the pain — one side, both sides, forehead, or back of the head?",
+            "hi": "दर्द कहाँ होता है — एक तरफ, दोनों तरफ, माथे में, या सिर के पिछले हिस्से में?",
+            "mr": "वेदना कुठे होते — एका बाजूला, दोन्ही बाजूला, कपाळावर की डोक्याच्या मागच्या भागात?"
+          },
+          "allowed_values": [
+            "one_side",
+            "both_sides",
+            "forehead",
+            "back",
+            "whole_head",
+            "unknown"
+          ],
+          "state_mapping": {
+            "field": "headache.location"
+          }
+        },
+        {
+          "id": "HEADACHE_SEVERITY",
+          "type": "SEVERITY",
+          "priority": 90,
+          "required": true,
+          "text": {
+            "en": "How severe is the headache — mild, moderate, or severe?",
+            "hi": "सिरदर्द कितना तेज़ है — हल्का, मध्यम, या बहुत तेज़?",
+            "mr": "डोकेदुखी किती तीव्र आहे — सौम्य, मध्यम की तीव्र?"
+          },
+          "allowed_values": [
+            "mild",
+            "moderate",
+            "severe"
+          ],
+          "state_mapping": {
+            "field": "headache.severity"
+          }
+        },
+        {
+          "id": "HEADACHE_NAUSEA_LIGHT",
+          "type": "MULTIPLE_CHOICE_OR_TEXT",
+          "priority": 70,
+          "required": false,
+          "text": {
+            "en": "Do you feel nauseous, vomit, or are sensitive to light or sound during the headache?",
+            "hi": "क्या सिरदर्द के दौरान जी मिचलाता है, उल्टी होती है, या रोशनी/आवाज़ से परेशानी होती है?",
+            "mr": "डोकेदुखीच्या वेळी मळमळते, उलटी होते किंवा प्रकाश/आवाजाचा त्रास होतो का?"
+          },
+          "state_mapping": {
+            "field": "headache.associated_symptoms"
+          }
+        },
+        {
+          "id": "HEADACHE_NEURO_RED_FLAG",
+          "type": "YES_NO_OR_TEXT",
+          "priority": 1000,
+          "required": true,
+          "red_flag": true,
+          "text": {
+            "en": "Do you have blurred vision, weakness on one side of the body, difficulty speaking, confusion, or fainting?",
+            "hi": "क्या धुंधला दिखना, शरीर के एक तरफ कमज़ोरी, बोलने में दिक्कत, भ्रम, या बेहोशी हो रही है?",
+            "mr": "अंधुक दिसणे, शरीराच्या एका बाजूला अशक्तपणा, बोलण्यात अडचण, गोंधळल्यासारखे वाटणे किंवा बेशुद्ध पडणे होत आहे का?"
+          },
+          "state_mapping": {
+            "field": "red_flags.headache_neurological"
+          }
+        },
+        {
+          "id": "HEADACHE_INJURY",
+          "type": "YES_NO",
+          "priority": 80,
+          "required": false,
+          "text": {
+            "en": "Have you had any recent injury to the head?",
+            "hi": "क्या हाल ही में आपके सिर में कोई चोट लगी है?",
+            "mr": "अलीकडे तुमच्या डोक्याला काही दुखापत झाली आहे का?"
+          },
+          "state_mapping": {
+            "field": "headache.recent_head_injury"
+          }
+        },
+        {
+          "id": "HEADACHE_FEVER",
+          "type": "YES_NO",
+          "priority": 75,
+          "required": false,
+          "text": {
+            "en": "Do you have fever along with the headache?",
+            "hi": "क्या सिरदर्द के साथ बुखार भी है?",
+            "mr": "डोकेदुखीसोबत ताप पण आहे का?"
+          },
+          "state_mapping": {
+            "field": "headache.associated_fever"
+          }
+        }
+      ]
+    },
+
+    "body_pain": {
+      "questions": [
+        {
+          "id": "BODYPAIN_DURATION",
+          "type": "DURATION",
+          "priority": 100,
+          "required": true,
+          "text": {
+            "en": "Since how many days do you have this body pain?",
+            "hi": "आपको यह बदन दर्द कितने दिनों से है?",
+            "mr": "तुम्हाला हे अंगदुखी किती दिवसांपासून आहे?"
+          },
+          "state_mapping": {
+            "field": "body_pain.duration"
+          }
+        },
+        {
+          "id": "BODYPAIN_LOCATION",
+          "type": "SINGLE_CHOICE_OR_TEXT",
+          "priority": 85,
+          "required": false,
+          "text": {
+            "en": "Is the pain all over the body, or in specific joints or muscles?",
+            "hi": "क्या दर्द पूरे शरीर में है, या किसी खास जोड़ या मांसपेशी में?",
+            "mr": "वेदना संपूर्ण शरीरात आहे की एखाद्या विशिष्ट सांध्यात किंवा स्नायूत आहे?"
+          },
+          "state_mapping": {
+            "field": "body_pain.location"
+          }
+        },
+        {
+          "id": "BODYPAIN_SWELLING",
+          "type": "YES_NO",
+          "priority": 70,
+          "required": false,
+          "text": {
+            "en": "Is there any swelling, redness, or warmth in the joints?",
+            "hi": "क्या जोड़ों में सूजन, लालपन, या गर्माहट महसूस होती है?",
+            "mr": "सांध्यांमध्ये सूज, लालसरपणा किंवा गरमपणा जाणवतो का?"
+          },
+          "state_mapping": {
+            "field": "body_pain.joint_changes"
+          }
+        },
+        {
+          "id": "BODYPAIN_WEAKNESS",
+          "type": "YES_NO",
+          "priority": 1000,
+          "required": true,
+          "red_flag": true,
+          "text": {
+            "en": "Do you have weakness or difficulty moving any part of your body?",
+            "hi": "क्या शरीर के किसी हिस्से में कमज़ोरी या हिलाने-डुलाने में दिक्कत है?",
+            "mr": "शरीराच्या कोणत्याही भागात अशक्तपणा किंवा हालचाल करण्यात अडचण आहे का?"
+          },
+          "state_mapping": {
+            "field": "red_flags.body_weakness_or_movement_problem"
+          }
+        },
+        {
+          "id": "BODYPAIN_FEVER",
+          "type": "YES_NO",
+          "priority": 75,
+          "required": false,
+          "text": {
+            "en": "Do you have fever along with the body pain?",
+            "hi": "क्या बदन दर्द के साथ बुखार भी है?",
+            "mr": "अंगदुखीसोबत ताप पण आहे का?"
+          },
+          "state_mapping": {
+            "field": "body_pain.associated_fever"
+          }
+        },
+        {
+          "id": "BODYPAIN_INJURY",
+          "type": "YES_NO",
+          "priority": 65,
+          "required": false,
+          "text": {
+            "en": "Have you had any recent injury or unusual physical activity?",
+            "hi": "क्या हाल ही में कोई चोट लगी है या असामान्य शारीरिक मेहनत हुई है?",
+            "mr": "अलीकडे काही दुखापत झाली आहे किंवा असामान्य शारीरिक श्रम झाले आहेत का?"
+          },
+          "state_mapping": {
+            "field": "body_pain.recent_injury_or_activity"
+          }
+        }
+      ]
+    },
+
+    "cold": {
+      "questions": [
+        {
+          "id": "COLD_DURATION",
+          "type": "DURATION",
+          "priority": 100,
+          "required": true,
+          "text": {
+            "en": "Since how many days do you have this cold or runny nose?",
+            "hi": "आपको यह सर्दी या जुकाम कितने दिनों से है?",
+            "mr": "तुम्हाला ही सर्दी किती दिवसांपासून आहे?"
+          },
+          "state_mapping": {
+            "field": "cold.duration"
+          }
+        },
+        {
+          "id": "COLD_DISCHARGE",
+          "type": "SINGLE_CHOICE",
+          "priority": 85,
+          "required": false,
+          "text": {
+            "en": "Is the nasal discharge watery, or thick and yellow or green?",
+            "hi": "नाक से पानी जैसा बहता है, या गाढ़ा पीला/हरा स्राव आता है?",
+            "mr": "नाकातून पाण्यासारखा स्राव येतो की घट्ट पिवळा/हिरवा स्राव येतो?"
+          },
+          "allowed_values": [
+            "watery",
+            "thick_yellow",
+            "thick_green",
+            "unknown"
+          ],
+          "state_mapping": {
+            "field": "cold.nasal_discharge"
+          }
+        },
+        {
+          "id": "COLD_ASSOCIATED",
+          "type": "MULTIPLE_CHOICE_OR_TEXT",
+          "priority": 75,
+          "required": false,
+          "text": {
+            "en": "Do you have sneezing, sore throat, or a blocked nose?",
+            "hi": "क्या छींकें आती हैं, गला ख़राब है, या नाक बंद रहता है?",
+            "mr": "शिंका येतात, घसा खवखवतो किंवा नाक बंद राहते का?"
+          },
+          "state_mapping": {
+            "field": "cold.associated_symptoms"
+          }
+        },
+        {
+          "id": "COLD_FEVER",
+          "type": "YES_NO",
+          "priority": 75,
+          "required": false,
+          "text": {
+            "en": "Do you have fever along with the cold?",
+            "hi": "क्या सर्दी के साथ बुखार भी है?",
+            "mr": "सर्दीसोबत ताप पण आहे का?"
+          },
+          "state_mapping": {
+            "field": "cold.associated_fever"
+          }
+        },
+        {
+          "id": "COLD_FACE_PAIN",
+          "type": "YES_NO",
+          "priority": 65,
+          "required": false,
+          "text": {
+            "en": "Do you feel pain or pressure on your face around the nose or eyes?",
+            "hi": "क्या चेहरे पर, नाक या आँखों के आसपास, दर्द या दबाव महसूस होता है?",
+            "mr": "चेहऱ्यावर, नाक किंवा डोळ्यांच्या आसपास, वेदना किंवा दाब जाणवतो का?"
+          },
+          "state_mapping": {
+            "field": "cold.face_pain_or_pressure"
+          }
+        },
+        {
+          "id": "COLD_ALLERGY",
+          "type": "YES_NO",
+          "priority": 50,
+          "required": false,
+          "text": {
+            "en": "Do you have any known allergies, like to dust, pollen, or weather changes?",
+            "hi": "क्या आपको धूल, परागकण, या मौसम बदलने से कोई एलर्जी है?",
+            "mr": "तुम्हाला धूळ, परागकण किंवा हवामान बदलाची कोणतीही ॲलर्जी आहे का?"
+          },
+          "state_mapping": {
+            "field": "cold.known_allergy"
+          }
+        }
+      ]
+    }
+  },
+
+  "cross_question_rules": [
+    {
+      "id": "RULE_FEVER_TO_COUGH",
+      "when": {
+        "field": "symptoms.fever",
+        "equals": true
+      },
+      "ask": "FEVER_ASSOCIATED"
+    },
+    {
+      "id": "RULE_FEVER_TO_BODYPAIN",
+      "when": {
+        "field": "symptoms.fever",
+        "equals": true
+      },
+      "ask": "BODYPAIN_FEVER"
+    },
+    {
+      "id": "RULE_FEVER_TO_HEADACHE",
+      "when": {
+        "field": "symptoms.fever",
+        "equals": true
+      },
+      "ask": "HEADACHE_FEVER"
+    },
+    {
+      "id": "RULE_FEVER_TO_COLD",
+      "when": {
+        "field": "symptoms.fever",
+        "equals": true
+      },
+      "ask": "COLD_FEVER"
+    },
+    {
+      "id": "RULE_COUGH_TO_FEVER",
+      "when": {
+        "field": "symptoms.cough",
+        "equals": true
+      },
+      "ask": "COUGH_FEVER"
+    },
+    {
+      "id": "RULE_COUGH_TO_BREATHING",
+      "when": {
+        "field": "symptoms.cough",
+        "equals": true
+      },
+      "ask": "COUGH_BREATHING"
+    },
+    {
+      "id": "RULE_STOMACH_TO_FEVER",
+      "when": {
+        "field": "symptoms.stomach_pain",
+        "equals": true
+      },
+      "ask": "STOMACH_FEVER"
+    },
+    {
+      "id": "RULE_HEADACHE_TO_FEVER",
+      "when": {
+        "field": "symptoms.headache",
+        "equals": true
+      },
+      "ask": "HEADACHE_FEVER"
+    },
+    {
+      "id": "RULE_BODYPAIN_TO_FEVER",
+      "when": {
+        "field": "symptoms.body_pain",
+        "equals": true
+      },
+      "ask": "BODYPAIN_FEVER"
+    },
+    {
+      "id": "RULE_COLD_TO_FEVER",
+      "when": {
+        "field": "symptoms.cold",
+        "equals": true
+      },
+      "ask": "COLD_FEVER"
+    }
+  ],
+
+  "branching_rules": [
+    {
+      "id": "BRANCH_COUGH_TYPE",
+      "question": "COUGH_TYPE",
+      "branches": {
+        "dry": {
+          "next": "COUGH_TIMING"
+        },
+        "productive": {
+          "next": "COUGH_PHLEGM_COLOR"
+        }
+      }
+    },
+    {
+      "id": "BRANCH_COUGH_PHLEGM",
+      "question": "COUGH_PHLEGM_COLOR",
+      "branches": {
+        "blood_stained": {
+          "action": "FLAG_FOR_DOCTOR"
+        }
+      }
+    },
+    {
+      "id": "BRANCH_FEVER_RED_FLAG",
+      "question": "FEVER_RED_FLAG",
+      "branches": {
+        "yes": {
+          "action": "FLAG_FOR_DOCTOR"
+        }
+      }
+    },
+    {
+      "id": "BRANCH_COUGH_BREATHING",
+      "question": "COUGH_BREATHING",
+      "branches": {
+        "yes": {
+          "action": "FLAG_FOR_DOCTOR"
+        }
+      }
+    },
+    {
+      "id": "BRANCH_COUGH_BLOOD",
+      "question": "COUGH_BLOOD_WEIGHT",
+      "branches": {
+        "yes": {
+          "action": "FLAG_FOR_DOCTOR"
+        }
+      }
+    },
+    {
+      "id": "BRANCH_STOMACH_RED_FLAG",
+      "question": "STOMACH_RED_FLAG",
+      "branches": {
+        "yes": {
+          "action": "FLAG_FOR_DOCTOR"
+        }
+      }
+    },
+    {
+      "id": "BRANCH_HEADACHE_RED_FLAG",
+      "question": "HEADACHE_NEURO_RED_FLAG",
+      "branches": {
+        "yes": {
+          "action": "FLAG_FOR_DOCTOR"
+        }
+      }
+    },
+    {
+      "id": "BRANCH_BODYPAIN_RED_FLAG",
+      "question": "BODYPAIN_WEAKNESS",
+      "branches": {
+        "yes": {
+          "action": "FLAG_FOR_DOCTOR"
+        }
+      }
+    }
+  ],
+
+  "red_flag_rules": [
+    {
+      "id": "RF_RESPIRATORY",
+      "trigger_fields": [
+        "red_flags.cough_breathing_or_chest_pain",
+        "red_flags.fever_neuro_respiratory"
+      ],
+      "trigger_value": true,
+      "action": "FLAG_FOR_DOCTOR"
+    },
+    {
+      "id": "RF_BLEEDING",
+      "trigger_fields": [
+        "red_flags.cough_blood_or_unintentional_weight_loss",
+        "red_flags.stomach_bleeding_or_sudden_severe_pain"
+      ],
+      "trigger_value": true,
+      "action": "FLAG_FOR_DOCTOR"
+    },
+    {
+      "id": "RF_NEUROLOGICAL",
+      "trigger_fields": [
+        "red_flags.headache_neurological",
+        "red_flags.body_weakness_or_movement_problem"
+      ],
+      "trigger_value": true,
+      "action": "FLAG_FOR_DOCTOR"
+    }
+  ],
+
+  "patient_state_schema": {
+    "language": null,
+    "chief_complaints": [],
+    "symptoms": {
+      "fever": false,
+      "cough": false,
+      "stomach_pain": false,
+      "headache": false,
+      "body_pain": false,
+      "cold": false
+    },
+    "fever": {
+      "duration": null,
+      "pattern": null,
+      "temperature": null,
+      "chills": null,
+      "associated_symptoms": [],
+      "medication": null
+    },
+    "cough": {
+      "duration": null,
+      "type": null,
+      "phlegm_color": null,
+      "timing": null,
+      "associated_fever": null
+    },
+    "stomach_pain": {
+      "duration": null,
+      "location": null,
+      "pattern": null,
+      "gastrointestinal_symptoms": [],
+      "food_relation": null,
+      "associated_fever": null
+    },
+    "headache": {
+      "duration": null,
+      "location": null,
+      "severity": null,
+      "associated_symptoms": [],
+      "recent_head_injury": null,
+      "associated_fever": null
+    },
+    "body_pain": {
+      "duration": null,
+      "location": null,
+      "joint_changes": null,
+      "associated_fever": null,
+      "recent_injury_or_activity": null
+    },
+    "cold": {
+      "duration": null,
+      "nasal_discharge": null,
+      "associated_symptoms": [],
+      "associated_fever": null,
+      "face_pain_or_pressure": null,
+      "known_allergy": null
+    },
+    "common": {
+      "duration": null,
+      "severity": null,
+      "progress": null,
+      "additional_symptoms": []
+    },
+    "red_flags": [],
+    "questions_asked": [],
+    "questions_skipped": [],
+    "completed": false
+  },
+
+  "answer_normalization": {
+    "yes": [
+      "yes",
+      "yeah",
+      "yep",
+      "haan",
+      "हाँ",
+      "हो",
+      "होय"
+    ],
+    "no": [
+      "no",
+      "nope",
+      "nahi",
+      "नहीं",
+      "नाही"
+    ],
+    "severity": {
+      "mild": [
+        "mild",
+        "slight",
+        "थोड़ा",
+        "हल्का",
+        "सौम्य"
+      ],
+      "moderate": [
+        "moderate",
+        "medium",
+        "मध्यम"
+      ],
+      "severe": [
+        "severe",
+        "very bad",
+        "बहुत तेज",
+        "बहुत ज्यादा",
+        "तीव्र"
+      ]
+    }
+  },
+
+  "question_engine": {
+    "selection_order": [
+      "red_flag_questions",
+      "required_questions",
+      "conditional_questions",
+      "cross_questions",
+      "optional_questions"
+    ],
+    "never_repeat_question": true,
+    "skip_if_condition_false": true,
+    "prioritize_red_flags": true,
+    "maximum_questions_per_symptom": 10,
+    "stop_when_required_questions_complete": true
+  },
+
+  "completion_rules": {
+    "minimum_information": [
+      "chief_complaints",
+      "duration"
+    ],
+    "required_for_selected_symptom": true,
+    "allow_patient_to_skip_optional_questions": true,
+    "when_complete": {
+      "action": "GENERATE_STRUCTURED_SUMMARY"
+    }
+  }
+}
