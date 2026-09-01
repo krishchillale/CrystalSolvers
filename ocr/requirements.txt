@@ -10,7 +10,9 @@ pymupdf>=1.24
 
 # For the Qwen VLM tiers (heavy — install separately, and only if you have
 # a CUDA GPU):
-torch>=2.2
+--extra-index-url https://download.pytorch.org/whl/cu132
+torch
+torchvision>=0.16
 transformers>=4.42
 accelerate>=0.30
 bitsandbytes>=0.43   # 4-bit quantization — needed to fit on 6GB-class GPUs

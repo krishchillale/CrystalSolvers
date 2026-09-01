@@ -14,12 +14,15 @@ import pymupdf as fitz  # `fitz` is the old import name, being deprecated
 import numpy as np
 
 
-def pdf_to_images(pdf_path: str, dpi: int = 300) -> list[np.ndarray]:
+def pdf_to_images(pdf_path: str, dpi: int = 150) -> list[np.ndarray]:
     """Render every page of a PDF to a BGR image array (same format
     cv2.imread would give you), so it can go straight into preprocess.py.
 
-    dpi=300 is a reasonable default for OCR — higher improves small-text
-    accuracy at the cost of processing time; don't go below ~200.
+    dpi=150 balances OCR accuracy against VLM memory use — 300 DPI renders
+    are roughly 4x the pixel count (and thus far more vision-encoder
+    tokens/VRAM), which is what caused CUDA OOM on a 6GB card even at
+    the 3B tier. Go higher only if small text is getting missed and your
+    GPU has headroom to spare.
     """
     zoom = dpi / 72  # PDF points are 72 per inch
     matrix = fitz.Matrix(zoom, zoom)

@@ -36,6 +36,10 @@ logger = logging.getLogger(__name__)
 # "8b" tries Qwen3-VL-8B (best accuracy, tight on 6GB) first, falling back
 # to "3b" automatically on OOM. "3b" skips straight to the smaller model.
 # "off" skips VLMs entirely and goes straight to Tesseract.
+#
+# NOTE: confirmed on an RTX 3050 6GB — Qwen3-VL-8B does NOT fit even at
+# 4-bit (accelerate can't auto-offload under bitsandbytes int4 without extra
+# config). Default set to "3b" to skip the guaranteed-fail 8b attempt.
 USE_QWEN_TIER: Literal["8b", "3b", "off"] = "3b"
 
 # Point this at your actual Tesseract install if it's not on PATH.
@@ -82,6 +86,13 @@ def _load_qwen(tier: Literal["8b", "3b"]):
     return _qwen_model, _qwen_processor
 
 
+def get_qwen_for_tier(tier: Literal["8b", "3b"]):
+    """Public accessor so other modules (e.g. structured extraction) can
+    reuse the already-loaded model instead of loading it a second time.
+    """
+    return _load_qwen(tier)
+
+
 def _run_qwen_tier(img: np.ndarray, tier: Literal["8b", "3b"]) -> OCRResult | None:
     try:
         import torch
@@ -91,7 +102,9 @@ def _run_qwen_tier(img: np.ndarray, tier: Literal["8b", "3b"]) -> OCRResult | No
         return None
 
     from PIL import Image
+    from vlm_utils import resize_for_vlm
 
+    img = resize_for_vlm(img)
     pil_img = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_GRAY2RGB))
 
     prompt = (
@@ -105,24 +118,38 @@ def _run_qwen_tier(img: np.ndarray, tier: Literal["8b", "3b"]) -> OCRResult | No
         {
             "role": "user",
             "content": [
-                {"type": "image", "image": pil_img},
+                {"type": "image"},
                 {"type": "text", "text": prompt},
             ],
         }
     ]
 
-    inputs = processor.apply_chat_template(
-        messages, tokenize=True, add_generation_prompt=True, return_tensors="pt"
+    # apply_chat_template(tokenize=True) does NOT process embedded images —
+    # it only builds the text prompt. The image has to be passed separately
+    # through the processor call below so it actually reaches the model.
+    chat_text = processor.apply_chat_template(
+        messages, tokenize=False, add_generation_prompt=True
+    )
+    inputs = processor(
+        text=[chat_text], images=[pil_img], return_tensors="pt"
     ).to(model.device)
 
     try:
-        output_ids = model.generate(inputs, max_new_tokens=2048)
+        output_ids = model.generate(**inputs, max_new_tokens=2048)
     except torch.cuda.OutOfMemoryError:
         logger.warning("CUDA OOM running Qwen (%s) — falling back.", tier)
         torch.cuda.empty_cache()
         return None
 
-    text = processor.decode(output_ids[0], skip_special_tokens=True)
+    # Slice off the input prompt tokens so we only decode the newly
+    # generated reply, not the whole system+user+assistant transcript.
+    input_len = inputs["input_ids"].shape[1]
+    generated_ids = output_ids[:, input_len:]
+    text = processor.batch_decode(generated_ids, skip_special_tokens=True)[0]
+    text = text.strip().strip("`").strip()  # some models wrap output in ``` fences
+
+    del inputs, output_ids
+    torch.cuda.empty_cache()  # release activation memory before next page/call
 
     engine = OCREngine.qwen3_vl if tier == "8b" else OCREngine.qwen2_5_vl_3b
 
