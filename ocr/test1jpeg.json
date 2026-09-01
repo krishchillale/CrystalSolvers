@@ -1,7 +1,7 @@
 [
   {
     "ocr": {
-      "document_id": "41d446ec-7057-4a3f-bb71-c2880702f55c",
+      "document_id": "3e8b4784-6102-4df1-bc65-c6c8af72a962",
       "page_number": 1,
       "full_text": "JEHANGIR HOSPITAL\nWe Add Care\n\nINVESTIGATION REPORT\nLab OrderNo : 0001309526\nReg No. : 608380\nName : MRS SALMA KHAN\nWard/Bed : B5-431\nReport Date : 05/04/2026 10:48 AM\nIP. No. : IP-4\nAge/Sex : 72 Yrs/Female\nReferred By : Dr. MILIND BOTRE\nSC Date : 05/04/2026 01:18 AM\n\nInvestigation Result Unit Biological Ref. Interval Method\nUrine Examination Routine and Microscopy Clinical Pathology\nPhysical Examination\nColour Dark yellow\nAppearance Clear\nChemical Examination\nSpecific gravity 1.021 1.010 1.030\n(Acid-base indicator reaction Method)\npH 5.5 5 - 8\n(Acid-base indicator reaction Method)\nLeucocyte esterase 2+ Negative\n(Esterase reaction Method)\nNitre Neg Negative\n(Diazotization reaction Method)\nProtein Trace Negative\n(Error method of protein indicator)\nGlucose Neg Negative\n(Glucose oxidase-peroxidase reaction\nMethod)\nKetone Neg Negative\n(Alkaline nitroferricyanide test Method)\nUrobilinogen Normal Normal\n(Diazonium salt reaction Method)\nBilirubin Neg Negative\n(Dichloroaniline diazonium salt reaction\nMethod)\nBlood Neg Negative\n(Peroxidase reaction Method)\nMicroscopic Examination\nWBC / Pus Cells 30-35 /hpf.\nEpithelial Cells 15-16 /hpf.\nRBCs 5-6 /hpf.\nCrenated Erythrocytes NIL /hpf.\nBudding yeast 0.0 /μL\nCalcium oxalate monohydrate/dihydrate 0.0 /μL\n0-28\n\n05/04/2026 02:55 PM\nPrinted By fo0399\n32, Sassoon Road, Pune 411001, India.\nEnquiry : +91-20-66819999, 66811000 Doctor's Appointments : +91-20-66819966\nEmail : info@jehangirhospital.com Web : www.jehangirhospital.com\nDial 8888881066 for a life support ambulance in a medical emergency\nPage 1 of 3",
       "blocks": [
@@ -31,75 +31,89 @@
         {
           "name": "Urine Examination Routine and Microscopy",
           "result": "Dark yellow",
-          "unit": "Clear",
+          "unit": null,
           "reference_range": null,
           "flag": null
         },
         {
-          "name": "Specific gravity",
+          "name": "Physical Examination",
+          "result": "Clear",
+          "unit": null,
+          "reference_range": null,
+          "flag": null
+        },
+        {
+          "name": "Chemical Examination",
           "result": "1.021",
           "unit": "1.010 1.030",
-          "reference_range": null,
+          "reference_range": "5 - 8",
           "flag": null
         },
         {
           "name": "pH",
           "result": "5.5",
-          "unit": "5 - 8",
-          "reference_range": null,
+          "unit": null,
+          "reference_range": "5 - 8",
           "flag": null
         },
         {
           "name": "Leucocyte esterase",
           "result": "2+",
-          "unit": "Negative",
+          "unit": null,
           "reference_range": null,
           "flag": null
         },
         {
           "name": "Nitre",
           "result": "Neg",
-          "unit": "Negative",
+          "unit": null,
           "reference_range": null,
           "flag": null
         },
         {
           "name": "Protein",
           "result": "Trace",
-          "unit": "Negative",
+          "unit": null,
           "reference_range": null,
           "flag": null
         },
         {
           "name": "Glucose",
           "result": "Neg",
-          "unit": "Negative",
+          "unit": null,
           "reference_range": null,
           "flag": null
         },
         {
           "name": "Ketone",
           "result": "Neg",
-          "unit": "Normal",
+          "unit": null,
           "reference_range": null,
           "flag": null
         },
         {
           "name": "Urobilinogen",
           "result": "Normal",
-          "unit": "Normal",
-          "reference_range": null,
+          "unit": null,
+          "reference_range": "Normal",
           "flag": null
         },
         {
           "name": "Bilirubin",
           "result": "Neg",
-          "unit": "Negative",
+          "unit": null,
           "reference_range": null,
           "flag": null
         },
         {
-          "name": "WBC / Pus Cells",
+          "name": "Blood",
+          "result": "Neg",
+          "unit": null,
+          "reference_range": null,
+          "flag": null
+        },
+        {
+          "name": "Microscopic Examination",
           "result": "30-35",
           "unit": "/hpf.",
           "reference_range": "0 - 5",

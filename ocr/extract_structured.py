@@ -50,24 +50,49 @@ CRITICAL rule for investigations — read carefully:
 Lab reports often group tests under section headers like "Physical \
 Examination", "Chemical Examination", or "Microscopic Examination". These \
 section headers are NOT test names and must NOT become an investigation \
-entry themselves. Instead, create ONE SEPARATE investigation entry for \
-EACH individual test result listed under that section.
+entry themselves, and must NOT have any test's result attached to them. \
+This applies to EVERY such section on the document, not just some of them \
+— check the whole page, including near the top. Instead, create ONE \
+SEPARATE investigation entry for EACH individual test result listed under \
+each section.
 
 For example, if the document shows:
+  Physical Examination
+    Colour ...... Dark yellow
+    Appearance ... Clear
   Chemical Examination
     pH ......... 5.5 ......... 5-8
     Glucose ..... Neg ......... Negative
-you must output TWO separate entries:
-  {"name": "pH", "result": "5.5", "reference_range": "5-8", ...}
-  {"name": "Glucose", "result": "Neg", "reference_range": "Negative", ...}
-NOT one entry named "Chemical Examination" with both results crammed into
-a single "result" string. Every individual test line on the document
-gets its own entry, no matter how many sections or sub-sections it's
-nested under.
+you must output FOUR separate entries — "Colour", "Appearance", "pH", and
+"Glucose" — each with its own single result. NOT entries named after the
+section headers ("Physical Examination", "Chemical Examination") with
+multiple results crammed together.
+
+This ALSO applies to the very FIRST test listed under each section header
+— a common mistake is to accidentally use the section header's own text as
+the "name" for that first test. In the example above, the first entry
+must be named "Colour" (not "Physical Examination"), and "pH" must be
+named "pH" (not "Chemical Examination"). The section header text itself
+must NEVER appear as a "name" value anywhere in the output — check this
+specifically for the first item under every section.
+
+CRITICAL rule for unit vs reference_range — these are different columns,
+do not confuse them:
+- "unit" is the measurement unit the result is expressed in (e.g. mg/dL,
+  /hpf., %, mmol/L). Many tests have NO unit (e.g. a pH reading, a
+  positive/negative chemical test) — for those, "unit" must be null.
+- "reference_range" is the normal/expected range or value for that test
+  (often in a column labeled "Biological Ref. Interval", "Reference
+  Range", "Normal Range", or similar). This is a DIFFERENT value from
+  the unit and must go in "reference_range", never in "unit" — even when
+  "unit" would otherwise be null.
+- Do not leave "reference_range" empty just because "unit" is empty —
+  check the correct column for each.
 
 Other rules:
-- Include EVERY individual investigation/medication line you can see — \
-don't summarize, group, or skip any.
+- Include EVERY individual investigation/medication line on the entire \
+document — check top to bottom carefully, don't stop partway through a \
+section or skip any line, including ones near section boundaries.
 - If the document has no investigations or no medications, use an empty list.
 - If a field isn't present in the document, use null — don't guess or \
 invent values.
@@ -77,6 +102,21 @@ or contact information — even if present on the document. Only clinical/\
 patient information belongs in the output.
 - Output ONLY the JSON object. No markdown fences, no explanation, no \
 extra text before or after.
+"""
+
+_COMPLETENESS_CHECK_TEMPLATE = """
+
+For reference, here is a plain-text transcript of this same document from \
+a separate OCR pass. Use it to DOUBLE-CHECK you haven't missed any test \
+line that appears in the image — if you see a test result in this \
+transcript that isn't in your investigations/medications list yet, add \
+it. The transcript may have minor OCR errors, so prefer what you read in \
+the image itself for the actual values, but use the transcript as a \
+checklist to catch anything you skipped:
+
+--- TRANSCRIPT START ---
+{ocr_text}
+--- TRANSCRIPT END ---
 """
 
 
@@ -89,11 +129,17 @@ def _strip_json_fences(text: str) -> str:
 
 
 def extract_structured(
-    img: np.ndarray, tier: Literal["8b", "3b"] = "3b"
+    img: np.ndarray,
+    tier: Literal["8b", "3b"] = "3b",
+    ocr_text: str | None = None,
 ) -> DocumentExtraction | None:
     """Returns a validated DocumentExtraction, or None if extraction/parsing
     failed (check logs — the pipeline should fall back to just using the
     raw OCRResult.full_text in that case, not crash).
+
+    ocr_text: optionally pass the already-extracted raw transcript (from
+    run_ocr()) so the model can cross-check completeness against it —
+    helps catch lines the structured pass would otherwise silently skip.
     """
     import torch
 
@@ -109,12 +155,16 @@ def extract_structured(
     img = resize_for_vlm(img)
     pil_img = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_GRAY2RGB))
 
+    prompt_text = _EXTRACTION_PROMPT
+    if ocr_text:
+        prompt_text += _COMPLETENESS_CHECK_TEMPLATE.format(ocr_text=ocr_text)
+
     messages = [
         {
             "role": "user",
             "content": [
                 {"type": "image"},
-                {"type": "text", "text": _EXTRACTION_PROMPT},
+                {"type": "text", "text": prompt_text},
             ],
         }
     ]

@@ -52,7 +52,7 @@ def process_file(path: str) -> list[dict]:
         extraction = None
         if result.engine_used.value.startswith("qwen"):
             tier = "8b" if result.engine_used.value == "qwen3-vl-8b" else "3b"
-            extraction = extract_structured(processed, tier=tier)
+            extraction = extract_structured(processed, tier=tier, ocr_text=result.full_text)
             if extraction is None:
                 print(f"[page {page_num}] Structured extraction failed — "
                       f"see log above. Raw OCR text still saved.")
